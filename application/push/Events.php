@@ -151,6 +151,7 @@ class Events
                             if ($GLOBALS['b'] == 3) {
                                 $GLOBALS['lang']  = false;
                                 $GLOBALS['nvstate']  = true;
+                                $GLOBALS['sum']  =  0;
                                 Gateway::sendToGroup('狼人','heiye1,狼人刀人时间到！');
                                 if(empty($GLOBALS['lang1'])){
                                     $GLOBALS['lang1']= '无人';
@@ -451,25 +452,35 @@ class Events
                    if (strpos($resData[1], '救') !== false || strpos($resData[1], '毒') !== false) {
 
                        if ($GLOBALS['nvstate']) {
+                         
+                            if($GLOBALS['sum']==0){
+
 
                            if (strpos($resData[1], '毒') !== false) {
                                if($du==1){
                                $nv = mb_substr($resData[1], strpos($resData[1], '毒') - 6, 2, "utf-8");
                                    Gateway::sendToClient($client_id, "你选择了" . $resData[1]);
+                                   $GLOBALS['sum']++;
+
                                    $du-=1;
                                }else{
                                    Gateway::sendToClient($client_id, "毒药用完");
                                }
                            }else {
+
                                if($jiu ==1){
                                    $lang1 = '';
                                    $jiu-=1;
+                                   $GLOBALS['sum']++;
                                    Gateway::sendToClient($client_id, "你选择了" . $resData[1]);
                                }else{
                                    Gateway::sendToClient($client_id, "解药用完");
                                }
 
                            }
+                          }else{
+                                Gateway::sendToClient($client_id, "夜晚只能使用一瓶药水");
+                            }
 
                        }
                        else {
