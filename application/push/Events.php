@@ -168,15 +168,19 @@ class Events
                                     Gateway::sendToClient($id[2], 'heiye1,'.'今晚，'.$GLOBALS['lang1'].'死亡，女巫请输入用毒药或解药');
                                     //Gateway::sendToClient($id[2], 'heiye1,女巫请输入用毒药或解药');
                                 }
+
                             }
                         }
+
                         if ($GLOBALS['tianhei'] > 90 && $GLOBALS['tianhei'] <= 120) {
 
                             $GLOBALS['b'] = 0;
                             $GLOBALS['c']++;
+
                             if ($GLOBALS['c'] == 3) {
                                 $GLOBALS['nvstate']  = false;
                                 $GLOBALS['yu']  = true;
+
                                 if ($data['game_state1'] == "预言家") {
                                     Gateway::sendToClient($id[0], 'heiye1,预言家请输入要查验的玩家');
                                 }
@@ -300,6 +304,7 @@ class Events
                                     $user .= $data['game_uid'.(string)$i]."、        ";
                                 }
                             }
+                            $user .="<br/>进入白天";
                             }else{
                                 $user = "游戏结束";
                                 $GLOBALS['tianhei']= -1;
@@ -336,6 +341,8 @@ class Events
 
             global $du; //女巫毒药
             global $jiu; //女巫救人
+        $du = 1;
+        $jiu = 1;
              global  $nvstate;//女巫能否用药
           global  $yu;//预言家天黑查验
             global  $lang;//狼人天黑刀人
@@ -442,17 +449,21 @@ class Events
                else {
 
                    if (strpos($resData[1], '救') !== false || strpos($resData[1], '毒') !== false) {
+
                        if ($GLOBALS['nvstate']) {
+
                            if (strpos($resData[1], '毒') !== false) {
                                if($du==1){
                                $nv = mb_substr($resData[1], strpos($resData[1], '毒') - 6, 2, "utf-8");
                                    Gateway::sendToClient($client_id, "你选择了" . $resData[1]);
+                                   $du-=1;
                                }else{
                                    Gateway::sendToClient($client_id, "毒药用完");
                                }
-                           } else {
+                           }else {
                                if($jiu ==1){
                                    $lang1 = '';
+                                   $jiu-=1;
                                    Gateway::sendToClient($client_id, "你选择了" . $resData[1]);
                                }else{
                                    Gateway::sendToClient($client_id, "解药用完");
@@ -460,12 +471,14 @@ class Events
 
                            }
 
-                       } else {
+                       }
+                       else {
                            Gateway::sendToClient($client_id, "未到用药时间");
                        }
                    }
                    else{
-                       if($GLOBALS['yu']){
+
+                       if($GLOBALS['yu']==1){
                        $data= $db->select('*')->from('game')->row();
                        $info =  mb_substr($resData[1],strpos($resData[1],'查')+1,2,"utf-8");
                        $state = "";
@@ -482,9 +495,15 @@ class Events
                                    $state = '狼人';
                                }
                            }
+                       }    $GLOBALS['yu']+=1;
+                            Gateway::sendToClient($client_id,"他是".$state);
+
                        }
-                       Gateway::sendToClient($client_id,"他是".$state);
-                       }else{
+                       elseif ($GLOBALS['yu']==2){
+                           Gateway::sendToClient($client_id,"夜晚只能查验一次");
+                       }
+
+                       else{
                            Gateway::sendToClient($client_id,"未到查验时间");
                        }
                    }
