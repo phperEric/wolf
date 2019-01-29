@@ -1,4 +1,4 @@
-ThinkPHP 5.0
+ThinkPHP 5.0 狼人杀文字版
 ===============
 
 [![Total Downloads](https://poser.pugx.org/topthink/think/downloads)](https://packagist.org/packages/topthink/think)
