@@ -121,14 +121,11 @@ www  WEB部署目录（或者子目录）
 
 ## 版权信息
 
-ThinkPHP遵循Apache2开源协议发布，并提供免费使用。
-
 本项目包含的第三方源码和二进制文件之版权信息另行标注。
 
-版权所有Copyright © 2006-2018 by ThinkPHP (http://thinkphp.cn)
+版权所有Copyright © 2019-01-10 by 18062292404@163.com (https://blog.csdn.net/qq_37322178)
 
 All rights reserved。
 
-ThinkPHP® 商标和著作权所有者为上海顶想信息科技有限公司。
 
 更多细节参阅 [LICENSE.txt](LICENSE.txt)
